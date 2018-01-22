@@ -1,5 +1,5 @@
 <template>
-  <div class="banner" >
+  <div class="banner" v-if="banner.length">
     <div class="slide-img">
         <a :href="banner[nowIndex].linkUrl">
             <img :src="banner[nowIndex].picUrl" />
@@ -20,14 +20,6 @@ export default {
       type: Array,
       default: []
     },
-    loop: {
-      type: Boolean,
-      default: true
-    },
-    auto: {
-      type: Boolean,
-      default: true
-    },
     inv: {
       type: Number,
       default: 2000
@@ -36,7 +28,7 @@ export default {
   data() {
     return {
       nowIndex: 0,
-      isShow: true //停止循环
+      isStart:true
     };
   },
   mounted() {
@@ -60,7 +52,7 @@ export default {
   },
   methods: {
     goto(index) {
-        this.nowIndex = index;
+      this.nowIndex = index;
     },
     runInv() {
       this.invId = setInterval(() => {
@@ -70,12 +62,8 @@ export default {
     clearInv() {
       clearInterval(this.invId);
     }
-  },
-  watch: {
-    banner(newValue, oldValue) {
-      console.log(newValue);
-    }
   }
+  
 };
 </script>
 
@@ -91,7 +79,8 @@ export default {
     .slide-btn {
         position: absolute;
         bottom: 5px;
-        left: 40%;
+        left: 50%;
+        transform: translateX(-50%)
         list-style: none;
         margin: auto;
 
@@ -110,7 +99,8 @@ export default {
     }
 
     .comm {
-        top: 40%;
+        top: 50%;
+        transform: translateY(-50%)
         width: 30px;
         position: absolute;
 
