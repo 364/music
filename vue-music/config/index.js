@@ -11,10 +11,15 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api/getSongList': {
-        target: 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg',//设置调用的接口域名和端口号 
-        changeOrigin: true
-        
+      '/api': {
+        target: 'https://c.y.qq.com',//设置调用的接口域名和端口号 
+        changeOrigin: true,
+        headers:{
+          referer:'https://y.qq.com/portal/palylist.html'
+        },
+        pathRewrite:{
+          '^/api/getSongList':'/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+        }
       }
     },
 

@@ -31,14 +31,9 @@ export function getPalyList() {
     })
 
     return axios.get(url, {
-        // headers: {
-        //   referer: 'https://c.y.qq.com/',
-        //   host: 'c.y.qq.com'
-        // },
         params: data
       }).then((res) => {
-        //return Promise.resolve(res.data).json(response.data)
-        console.log(res)
+        return res.data
       }).catch((e) => {
         console.log(e)
       })
