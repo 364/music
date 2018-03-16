@@ -1,0 +1,75 @@
+
+@import "./variable.less";
+
+*,::before,::after{
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;/*兼容移动端主流浏览器*/
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;/*清除移动端点击高亮效果*/
+}
+
+ol,ul{
+    list-style: none;
+}
+/*清除浮动*/
+.clearfix{
+    :before,:after{
+        content: "";
+        display: block;
+        height: 0;
+        line-height: 0;
+        visibility: hidden;
+        clear: both;
+    }
+}
+
+.layout{
+    width: 100%;
+    max-width: 750px;
+    min-width: 320px;
+    margin: 0 auto;
+    position: relative;
+}
+.banner{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    ul:first-child{
+        margin-left: 0;
+        width: 1000%;
+        -webkit-transform: translateX(-10%);
+        transform: translateX(-10%);
+        li{
+            width: 10%;
+            float: left;
+            a{
+                display: block;
+                width: 100%;
+                img{
+                    width: 100%;
+                    display: block;
+                }
+            }
+        }
+    }
+    ul:last-child{
+        margin-left: 0;
+        position: absolute;
+        bottom: 6px;
+        width: 100%;
+        text-align: center;
+        li{
+            width: 6px;
+            height: 6px;
+            border: 1px solid @color-text;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 10px;
+            
+        }
+        li.on{
+            background: @color-text;
+        }
+    }
+}

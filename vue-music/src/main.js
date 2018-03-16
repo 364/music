@@ -6,10 +6,20 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import fastclick from 'fastclick'
-import './assets/stylus/index.styl'
+import './assets/less/index.less'
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import Scroll from 'better-scroll'
+import VueLazyLoad from "vue-lazyload"
 
-//body下的div都有三秒延迟
+Vue.use(VueAwesomeSwiper)
+
+//处理移动端click三秒延迟的问题
 fastclick.attach(document.body)
+
+//图片懒加载
+Vue.use(VueLazyLoad,{
+  loading:require("assets/images/default.png")
+})
 
 Vue.config.productionTip = false
 

@@ -18,21 +18,27 @@ export default {
 }
 </script>
 
-<style scoped lang="stylus">
-  @import "../../assets/stylus/variable"
-  .tab
-    display: flex
-    height: 44px
-    line-height: 44px
-    font-size: $font-size-medium
-    .tab-item
-      flex: 1
-      text-align: center
-      .tab-link
-        padding-bottom: 5px
-        color: $color-background
-      &.router-link-active
-        .tab-link
-          color: $color-theme
-          border-bottom: 2px solid $color-theme
+<style scoped lang="less">
+  @import "../../assets/less/variable";
+
+  .tab{
+    display: flex;
+    height: 44px;
+    line-height: 44px;
+    font-size: @font-size-medium;
+    .tab-item{
+      flex: 1;
+      text-align: center;
+      .tab-link{
+        padding-bottom: 5px;
+        color: @color-background;
+      }
+      &.router-link-active{
+        .tab-link{
+          color: @color-theme;
+          border-bottom: 2px solid @color-theme;
+        }
+      }    
+    }
+  }
 </style>

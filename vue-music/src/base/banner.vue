@@ -1,120 +1,74 @@
 <template>
   <div class="banner" v-if="banner.length">
-    <div class="slide-img">
-        <a :href="banner[nowIndex].linkUrl">
-            <img :src="banner[nowIndex].picUrl" />
-        </a>
-    </div>
-    <ul class="slide-btn">
-        <li v-for="(item,index) in banner" :class="{on: index === nowIndex}" @click="goto(index)"></li>
-    </ul>
-    <li @click="goto(prevIndex)" class="prev comm"><img src="../assets/images/prev.svg" /></li>
-    <li @click="goto(nextIndex)" class="next comm"><img src="../assets/images/next.svg" /></li>
+    <swiper :options="swiperOption" ref="mySwiper">
+        <swiper-slide v-for="(item,index) in banner" :key="index">
+            <a :href="banner[index].linkUrl">
+                <img :src="banner[index].picUrl" >
+            </a>
+        </swiper-slide>
+        <div class="swiper-pagination" slot="pagination" id="pagination"></div>  
+    </swiper>
   </div>
 </template>
 
 <script>
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.min.css";
 export default {
+  components: {
+    swiper,
+    swiperSlide
+  },
   props: {
     banner: {
       type: Array,
       default: []
-    },
-    inv: {
-      type: Number,
-      default: 2000
     }
   },
   data() {
     return {
-      nowIndex: 0,
-      isStart:true
+      swiperOption: {
+        //notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
+        notNextTick: true,
+        loop: true, //循环
+        autoplay: {
+          delay: 2000,
+          disableOnInteraction: false //操作之后继续自动播放
+        },
+        direction: "horizontal", //水平 垂直：vertical
+        paginationType: "bullets", //圆点bullets  进度条progress 自定义custom
+        grabCursor: true, //拖动时指针会变成抓手形状
+        setWrapperSize: true, //使用flexbox布局(display: flex)
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true//分页点击
+        },
+        // slidesPerView: "auto",
+        centeredSlides: true
+      }
     };
   },
   mounted() {
-      this.runInv()
+    //这边就可以使用swiper这个对象去使用swiper官网中的那些方法
+    //this.swiper.slideTo(0, 0, false);
   },
   computed: {
-    prevIndex() {
-      if (this.nowIndex === 0) {
-        return this.banner.length - 1;
-      } else {
-        return this.nowIndex - 1;
-      }
-    },
-    nextIndex() {
-      if (this.nowIndex === this.banner.length - 1) {
-        return 0;
-      } else {
-        return this.nowIndex + 1;
-      }
+    swiper() { 
+      return this.$refs.mySwiper.swiper;
     }
-  },
-  methods: {
-    goto(index) {
-      this.nowIndex = index;
-    },
-    runInv() {
-      this.invId = setInterval(() => {
-        this.goto(this.nextIndex);
-      }, this.inv);
-    },
-    clearInv() {
-      clearInterval(this.invId);
-    }
+    
   }
-  
 };
 </script>
 
-<style lang="stylus" scoped>
-.banner {
-    position: relative;
-
-    .slide-img a img {
-        width: 100%;
-        display: inline-block;
-    }
-
-    .slide-btn {
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        transform: translateX(-50%)
-        list-style: none;
-        margin: auto;
-
-        li {
-            display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 100%;
-            margin-right: 10px;
-        }
-
-        .on {
-            background: #fff;
-        }
-    }
-
-    .comm {
-        top: 50%;
-        transform: translateY(-50%)
-        width: 30px;
-        position: absolute;
-
-        img {
-            width: 100%;
-        }
-    }
-
-    .prev {
-        left: 0;
-    }
-
-    .next {
-        right: 0;
-    }
+<style>
+.banner img {
+  width: 100%;
+}
+.swiper-pagination-bullet{
+    background: white;
+} 
+.swiper-pagination-bullet-active{
+    background: #ffcc33;
 }
 </style>
