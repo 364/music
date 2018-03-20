@@ -1,5 +1,5 @@
 <template>
-  <div class="warpper" ref="warpper">
+  <div class="warpper" ref="warpper" >
       <slot></slot>
   </div>
 </template>
@@ -23,9 +23,14 @@ export default {
     refreshDelay: {
       type: Number,
       default: 20
+    },
+    //监听并给高亮
+    listenScroll: {
+      type: Boolean,
+      default: false
     }
   },
-  created () {
+  created() {
     this.$nextTick(() => {
       this._initScroll();
     }, 20);
@@ -39,6 +44,14 @@ export default {
         probeType: this.probeType,
         click: this.click
       });
+      if (this.listenScroll) {
+        let me = this;
+        this.scroll.on("scroll", (pos) => {
+          //pos是对象有x和y轴
+          me.$emit('scroll', pos)
+
+        });
+      }
     },
     enable() {
       this.scroll && this.scroll.enable();
@@ -49,15 +62,22 @@ export default {
     refresh() {
       //重新更新
       this.scroll && this.scroll.refresh();
+    },
+    //歌手排行滑动
+    scrollTo() {
+      this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments);
+    },
+    //歌手排行滑动
+    scrollToElement() {
+      this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments);
     }
-    // },//无法监听数据刷新滚动，会报错，崩溃
-    // watch: {
-    //   data() {
-    //     setTimeout(() => {
-    //       this.refresh()
-    //     }, this.refreshDelay);
-    //   }
-    // }
+  }, //终于没报错 要用data:function(){}写法 不要放在methods里
+  watch: {
+    data: function() {
+      setTimeout(() => {
+        this.refresh();
+      }, this.refreshDelay);
+    }
   }
 };
 </script>

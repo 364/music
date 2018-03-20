@@ -48,9 +48,8 @@ export default {
       SongListTitle: "推荐歌单"
     };
   },
-  created() {
-    this._getPalyList(),
-    this._getRecommend() ;
+  created() {  
+    this._getRecommend(),this._getPalyList();
   },
   computed: {},
   methods: {
