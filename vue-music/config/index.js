@@ -15,10 +15,12 @@ module.exports = {
         target: 'https://c.y.qq.com',//设置调用的接口域名和端口号 
         changeOrigin: true,
         headers:{
-          referer:'https://y.qq.com/portal/palylist.html'
+          // referer:'https://y.qq.com/portal/palylist.html'
+          referer:'https://c.y.qq.com'
         },
         pathRewrite:{
-          '^/api/getSongList':'/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
+          '^/api/getSongList':'/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg',
+          '^/api/getSongUrl':'/base/fcgi-bin/fcg_music_express_mobile3.fcg'
         }
       }
     },

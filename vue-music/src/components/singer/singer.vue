@@ -1,6 +1,7 @@
 <template>
   <div class="singer">
-      <list-view :data="singers"></list-view>
+      <list-view @select="selectSinger" :data="singers"></list-view>
+      <router-view></router-view>
   </div>
 </template>
 
@@ -9,7 +10,8 @@ import ListView from "@/base/listview";
 import { getSingerList } from "@/api/singer.js";
 import { ERR_OK } from "@/api/config.js";
 import Singer from "../../assets/js/singer.js";
-
+//对mutations进行封装
+import {mapMutations} from 'vuex';
 
 export default {
   components:{
@@ -26,11 +28,17 @@ export default {
     this._getSingerList();
   },
   methods: {
+    selectSinger(singer){
+      this.$router.push({
+        path:`/singer/${singer.id}`
+      })
+      this.setSinger(singer)
+    },
     _getSingerList() {
       getSingerList().then(res => {
         if (res.code === ERR_OK) {
           this.singers = this._normalizeSinger(res.data.list);
-          console.log(this.singers)
+          // console.log(this.singers)
         }
       });
     },
@@ -66,7 +74,7 @@ export default {
           })
         );
       });
-      console.log(map)
+      // console.log(map)
       //为了得到有序列表，我们需要处理map
       let hot = [];
       let ret = [];
@@ -82,7 +90,10 @@ export default {
         return a.title.charCodeAt(0) - b.title.charCodeAt(0);
       });
       return hot.concat(ret);//concat连接
-    }
+    },
+    ...mapMutations({
+      setSinger:'SET_SINGER'
+    })
   }
 };
 </script>
