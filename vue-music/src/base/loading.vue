@@ -8,7 +8,7 @@
 export default {
   data() {
     return {
-      title: "正在载入..."
+      title: "正在载入"
     };
   }
 };
@@ -16,8 +16,12 @@ export default {
 <style scoped lang="less">
 @import "~assets/less/variable";
 .loading {
-  width: 100%;
+  position: absolute;
+  top:30%;
+  left:50%;
   text-align: center;
+  transform: translate(-50%,-50%);
+
   p {
     line-height: 20px;
     font-size: @font-size-small;

@@ -1,19 +1,33 @@
 <template>
     <transition name="slide">
-        <div class="singer-detail"></div>
+        <song-list :songs="songs" :title="title" :bgImage="bgImage"></song-list>
     </transition>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { getSingerDetail, getSongUrl } from "@/api/singer.js";
 import { ERR_OK } from "@/api/config.js";
+import { createSong } from "@/assets/js/song.js";
+import SongList from "../music-list/music-list";
 
 export default {
+  components: {
+    SongList
+  },
   computed: {
+    title() {
+      return this.singer.name;
+    },
+    bgImage(){
+      return this.singer.avatar
+      console.log(this.singer)
+    },
     ...mapGetters(["singer"])
   },
   data() {
-    return {};
+    return {
+      songs: []
+    };
   },
   created() {
     this._getDetail();
@@ -28,41 +42,34 @@ export default {
       getSingerDetail(this.singer.id).then(res => {
         if (res.code === ERR_OK) {
           // console.log(res.data.list);
-        }
-      });
-      getSongUrl("001OyHbk2MSIi4").then(res => {
-        if (res.code === ERR_OK) {
-          console.log(res.data);
-          console.log(
-            "http://dl.stream.qqmusic.qq.com/C400" +
-              "001OyHbk2MSIi4" +
-              ".m4a?vkey=" +
-              res.data.items[0].vkey +
-              "&guid=9930773040&uin=0&fromtag=66"
-          );
+          this.songs = this._normalizeSongs(res.data.list);
+          console.log(this.songs);
         }
       });
     },
-    _nomalizeSongs(list) {
+    _normalizeSongs(list) {
       let ret = [];
+      // console.log(list);
       list.forEach(item => {
-        let { musicDta } = item;
+        let { musicData } = item;
+        if (musicData.songid && musicData.albummid) {
+          // console.log(musicData.songmid);
+          getSongUrl(musicData.songmid).then(res => {
+            if (res.code === ERR_OK) {
+              let songKey = res.data.items[0].vkey;
+              let newSong = createSong(musicData, songKey);
+              console.log(newSong)
+              ret.push(newSong);
+            }
+          })
+        }
       });
+      return ret;
     }
   }
 };
 </script>
 <style lang="less" scoped>
-.singer-detail {
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: white;
-}
-
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.3s;

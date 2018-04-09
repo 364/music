@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     selectSinger(singer){
+      //点击歌手进入详情页
       this.$router.push({
         path:`/singer/${singer.id}`
       })

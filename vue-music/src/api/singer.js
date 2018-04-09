@@ -2,6 +2,7 @@ import jsonp from '@/assets/js/jsonp'
 import axios from 'axios'
 import { recommendParam, options } from './config.js'
 
+//获取歌手列表
 export function getSingerList() {
     const url = "https://c.y.qq.com/v8/fcg-bin/v8.fcg"
     //深层复制Object.assign({},复制内容)
@@ -20,6 +21,7 @@ export function getSingerList() {
     return jsonp(url, data, options)
 }
 
+//获取歌手详情
 export function getSingerDetail(singerId) {
     const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
 
@@ -37,9 +39,10 @@ export function getSingerDetail(singerId) {
     return jsonp(url, data, options)
 }
 
+//获取歌曲链接(Vkey)
 export function getSongUrl(mid) {
     const url = '/api/getSongUrl'
-    console.log(mid)
+    // console.log(mid)
     const data = Object.assign({}, recommendParam, {
         // jsonpCallback:'MusicJsonCallback08081130369647016',
         loginUin: 0,

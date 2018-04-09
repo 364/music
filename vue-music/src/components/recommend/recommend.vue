@@ -91,7 +91,7 @@ export default {
   top:88px;
   bottom:0;
   background: white;
-  max-width: 760px;
+  max-width: 640px;
 }
 .listTitle {
   color: #ffcd32;

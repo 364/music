@@ -2,6 +2,7 @@ import jsonp from '@/assets/js/jsonp'
 import axios from 'axios'
 import { recommendParam, options } from './config'
 
+//获取banner
 export function getRecommend() {
     const url = 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
 
@@ -15,6 +16,7 @@ export function getRecommend() {
     return jsonp(url, data, options)
 }
 
+//获取推荐歌单
 export function getPalyList() {
     const url = '/api/getSongList'
 

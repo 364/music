@@ -1,4 +1,4 @@
-//jsonp参数配置
+//jsonp公共参数配置
 
 export const recommendParam = {
     g_tk: 5381,
